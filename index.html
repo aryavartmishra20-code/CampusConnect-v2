@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <!--navbar start-->
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" onclick="showSection('home')">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="showSection('all-events')">All Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showSection('registered')">Registered</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showSection('Upcoming')">Upcoming</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <!--navbar  end-->
+
+
+
+
+<section id="home">
+    <!--content  start-->
+
+    <h1>Make Your Next event </h1><h1 style="color:#efb01b">Extraordinary</h1>
+
+    <p>From small gatherings to grand celebrations, we help you create moments that last a lifetime.</p>
+
+    <!--content start-->
+
+
+    <!--buttons start-->
+
+    <button type="button" class="btn btn-secondary btn-sm">Explore Events</button>
+    <button type="button" class="btn btn-secondary btn-sm">Upcoming Events</button>
+
+    <!--button start-->
+
+
+    <!--cards start-->
+
+    <div class="container">
+        <div class="row">
+    
+<div class="col">
+    <div class="card border-primary mb-3" style="max-width: 18rem;">
+  <div class="card-body text-primary">
+    <h5 class="card-title">1000+ users</h5> 
+    <p class="card-text">Events Hosted</p>
+  </div>
+</div>
+</div>
+
+<div class="col">
+<div class="card border-secondary mb-3" style="max-width: 18rem;"> 
+  <div class="card-body text-secondary">
+    <h5 class="card-title">100+ events hosted succesfully</h5>
+    <p class="card-text">Happy Attendees</p>
+  </div>
+</div>
+</div>
+
+<div class="col">
+<div class="card border-success mb-3" style="max-width: 18rem;"> 
+  <div class="card-body text-success">
+    <h5 class="card-title">4.5/5</h5>
+    <p class="card-text">Client Rating</p>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+    <!--cards ending-->
+</section>
+
+
+
+
+<section id="all-events">
+
+    
+    <!--cards for events start-->
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">event 1</h5>
+        <p class="card-text">event 1 description.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">event 2</h5>
+        <p class="card-text">event 2 description</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">event 3</h5>
+        <p class="card-text">event 3 description.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">event 4</h5>
+        <p class="card-text">event 4 description.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--cards for events ends-->
+    
+
+</section>
+
+
+
+
+<section id="registered">
+
+
+
+
+    
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
