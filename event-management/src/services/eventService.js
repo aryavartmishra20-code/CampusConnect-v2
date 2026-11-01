@@ -10,7 +10,7 @@ import { initialEvents } from '../data/events';
  *  - Resilient local fallback so the website and UI remain 100% operational whether the backend is running or offline.
  */
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://campusconnect-backend-z0si.onrender.com/api';
 const STORAGE_KEY_EVENTS = 'campus_events';
 const STORAGE_KEY_REGISTRATIONS = 'campus_event_registrations';
 const STORAGE_KEY_TOKEN = 'campus_admin_jwt';
