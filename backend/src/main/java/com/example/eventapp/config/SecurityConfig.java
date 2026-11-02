@@ -112,7 +112,8 @@ public class SecurityConfig {
                 "http://localhost:5173",
                 "http://localhost:5500",
                 "http://127.0.0.1:5500",
-                "https://campus-connect-v2-qzh6t48ai-campus-connect-facc.vercel.app"
+                "https://campus-connect-v2-qzh6t48ai-campus-connect-facc.vercel.app",
+                "https://campus-connect-v2-9tcpvlk0m-campus-connect-facc.vercel.app/"
 
         ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
