@@ -30,7 +30,8 @@ import java.util.List;
  * - Enables CORS for frontend dev servers
  * - Sets stateless session management (no HTTP session cookies)
  * - Restricts ADMIN-only routes and permits public routes
- * - Registers JWT authentication filter before UsernamePasswordAuthenticationFilter
+ * - Registers JWT authentication filter before
+ * UsernamePasswordAuthenticationFilter
  */
 @Configuration
 @EnableWebSecurity
@@ -42,14 +43,15 @@ public class SecurityConfig {
 
     // Injects security filter and custom error handlers
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                          CustomAuthenticationEntryPoint authenticationEntryPoint,
-                          CustomAccessDeniedHandler accessDeniedHandler) {
+            CustomAuthenticationEntryPoint authenticationEntryPoint,
+            CustomAccessDeniedHandler accessDeniedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
     }
 
-    // Configures the SecurityFilterChain bean defining URL authorizations and filters
+    // Configures the SecurityFilterChain bean defining URL authorizations and
+    // filters
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -72,8 +74,7 @@ public class SecurityConfig {
                 // Custom exception handlers for 401 Unauthorized and 403 Forbidden
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)
-                )
+                        .accessDeniedHandler(accessDeniedHandler))
 
                 // Route authorization rules
                 .authorizeHttpRequests(auth -> auth
@@ -92,19 +93,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/events/**").hasRole("ADMIN")
 
                         // All other endpoints require authentication
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
 
                 // Allow frames for H2 console in browser
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-                // Register JWT authentication filter before Spring's default username/password filter
+                // Register JWT authentication filter before Spring's default username/password
+                // filter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // Configures CORS permissions for React dev server (5173) and VS Code Live Server (5500)
+    // Configures CORS permissions for React dev server (5173) and VS Code Live
+    // Server (5500)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -113,9 +115,8 @@ public class SecurityConfig {
                 "http://localhost:5500",
                 "http://127.0.0.1:5500",
                 "https://campus-connect-v2-qzh6t48ai-campus-connect-facc.vercel.app",
-                "https://campus-connect-v2-9tcpvlk0m-campus-connect-facc.vercel.app/"
-
-        ));
+                "https://campus-connect-v2-9tcpvlk0m-campus-connect-facc.vercel.app",
+                "https://campus-connect-v2-red.vercel.app"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
         config.setAllowCredentials(true);
