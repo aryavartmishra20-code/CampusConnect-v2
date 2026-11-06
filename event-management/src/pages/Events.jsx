@@ -1,120 +1,151 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import EventCard from '../components/EventCard';
 
 /**
- * Events Page Component
- * 
- * Displays full catalog of events with:
- *  - Real-time search by title
- *  - Category filter pills (All, Technical, Cultural, Sports, Workshop)
- *  - Responsive grid layout of EventCard components
+ * Events Catalog Page — Premium event discovery with search and filters.
  */
 function Events({ events }) {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Categories list for filter buttons
   const categories = ['All', 'Technical', 'Cultural', 'Sports', 'Workshop'];
 
-  // Filter events based on active category and search term
-  const filteredEvents = events.filter((event) => {
-    // 1. Check title search match (case-insensitive)
-    const matchesSearch = event.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase().trim());
+  // Read search param from hero search redirect
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('search');
+    if (q) setSearchTerm(q);
+  }, [location.search]);
 
-    // 2. Check category filter match
+  // Simulate a brief loading state on mount
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 400);
+    return () => clearTimeout(t);
+  }, []);
+
+  const filteredEvents = events.filter((event) => {
+    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase().trim());
     const matchesCategory =
       selectedCategory === 'All' ||
       event.category?.toLowerCase() === selectedCategory.toLowerCase();
-
     return matchesSearch && matchesCategory;
   });
 
   return (
     <div className="page events-page">
-      <div className="page-header">
+      {/* Page Header */}
+      <motion.div
+        className="page-header"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="section-label">🗓️ Catalog</div>
         <h1 className="page-title">Explore Campus Events</h1>
         <p className="page-subtitle">
-          Browse upcoming technical symposiums, sports leagues, cultural fests, and workshops.
+          Browse hackathons, cultural festivals, sports tournaments, and skill workshops — all in one place.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Search and Filters Bar */}
-      <div className="filter-controls-container">
-        {/* Search Input Bar */}
+      {/* Search & Filters */}
+      <motion.div
+        className="filter-controls-container"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
+      >
         <div className="search-bar-wrapper">
-          <span className="search-icon">🔍</span>
+          <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
           <input
             type="text"
             className="search-input"
-            placeholder="Search events by title..."
+            placeholder="Search events by title…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
-            <button
-              className="clear-search-btn"
-              onClick={() => setSearchTerm('')}
-              title="Clear search"
-            >
-              &times;
+            <button className="clear-search-btn" onClick={() => setSearchTerm('')} title="Clear search">
+              ×
             </button>
           )}
         </div>
 
-        {/* Category Filter Pills */}
         <div className="category-filters">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(category)}
+          {categories.map((cat) => (
+            <motion.button
+              key={cat}
+              className={`filter-btn${selectedCategory === cat ? ' active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+              whileTap={{ scale: 0.96 }}
             >
-              {category}
-            </button>
+              {cat}
+            </motion.button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Events Count Indicator */}
+      {/* Count Bar */}
       <div className="events-count-bar">
-        <span>Showing <strong>{filteredEvents.length}</strong> of {events.length} events</span>
+        <span>
+          Showing <strong>{filteredEvents.length}</strong> of {events.length} events
+        </span>
         {(searchTerm || selectedCategory !== 'All') && (
           <button
             className="btn-reset-filters"
-            onClick={() => {
-              setSearchTerm('');
-              setSelectedCategory('All');
-            }}
+            onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }}
           >
-            Reset Filters
+            ✕ Reset Filters
           </button>
         )}
       </div>
 
-      {/* Responsive Event Grid */}
-      {filteredEvents.length > 0 ? (
+      {/* Loading Skeletons */}
+      {isLoading ? (
         <div className="events-grid">
-          {filteredEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <div key={n} style={{ background: 'var(--surface)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border)' }}>
+              <div className="skeleton" style={{ height: 190 }} />
+              <div style={{ padding: 20 }}>
+                <div className="skeleton" style={{ height: 16, width: '70%', marginBottom: 10 }} />
+                <div className="skeleton" style={{ height: 12, width: '50%', marginBottom: 8 }} />
+                <div className="skeleton" style={{ height: 12, width: '60%', marginBottom: 16 }} />
+                <div className="skeleton" style={{ height: 40 }} />
+              </div>
+            </div>
           ))}
         </div>
+      ) : filteredEvents.length > 0 ? (
+        <motion.div className="events-grid" layout>
+          <AnimatePresence mode="popLayout">
+            {filteredEvents.map((event, i) => (
+              <EventCard key={event.id} event={event} index={i} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       ) : (
-        <div className="empty-state">
+        <motion.div
+          className="empty-state"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <div className="empty-icon">🔍</div>
           <h3>No matching events found</h3>
-          <p>Try searching for a different keyword or reset your category filters.</p>
+          <p>Try searching with a different keyword or reset your category filters.</p>
           <button
             className="btn btn-primary"
-            onClick={() => {
-              setSearchTerm('');
-              setSelectedCategory('All');
-            }}
+            onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }}
+            style={{ marginTop: 8 }}
           >
             Show All Events
           </button>
-        </div>
+        </motion.div>
       )}
     </div>
   );
